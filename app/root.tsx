@@ -1,4 +1,28 @@
-import { LiveReload } from "@remix-run/react";
+import type { LinksFunction } from '@remix-run/node';
+import { Links, LiveReload, Outlet } from '@remix-run/react';
+
+import globalLargeStylesUrl from './styles/global-large.css';
+import globalMediumStylesUrl from './styles/global-medium.css';
+import globalStylesUrl from './styles/global.css';
+
+export const links: LinksFunction = () => {
+  return [
+    {
+      rel: 'stylesheet',
+      href: globalStylesUrl,
+    },
+    {
+      rel: 'stylesheet',
+      href: globalMediumStylesUrl,
+      media: 'print, (min-width: 640px)',
+    },
+    {
+      rel: 'stylesheet',
+      href: globalLargeStylesUrl,
+      media: 'screen and (min-width: 1024px)',
+    },
+  ];
+};
 
 export default function App() {
   return (
@@ -6,10 +30,11 @@ export default function App() {
       <head>
         <meta charSet="utf-8" />
         <title>Remix Jokes App</title>
+        <Links />
       </head>
       <body>
-        <h1>Hello World!!</h1>
-        {process.env.NODE_ENV === "development" ? <LiveReload /> : null}
+        <Outlet />
+        {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
       </body>
     </html>
   );
